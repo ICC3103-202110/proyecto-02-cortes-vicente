@@ -1,26 +1,19 @@
 {
-  "name": "proyecto2",
+  "name": "proyecto_2_fp",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ICC3103-202110/proyecto-02-cortes-vicente.git"
-  },
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ICC3103-202110/proyecto-02-cortes-vicente/issues"
-  },
-  "homepage": "https://github.com/ICC3103-202110/proyecto-02-cortes-vicente#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "console-table-printer": "^2.9.0",
     "figlet": "^1.5.0",
-    "inquirer": "^8.1.0"
+    "inquirer": "^8.1.0",
+    "prompt-sync": "^4.2.0"
   }
 }

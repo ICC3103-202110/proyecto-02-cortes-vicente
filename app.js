@@ -1,35 +1,63 @@
-const {input_is_left, input_value, input_begin_unit, input_end_unit, visual} = require('./view');
-const {init_model} = require('./model');
-const {update} = require('./update');
-const {printTable} = require('console-table-printer');
+// Lo primero que se hizo fue instalar las librerias recomendadas
+// en el enunciado. Para eso se ejecuto:
+// npm init 
+// npm install console-table-printer inquirer figlet chalk prompt-sync axios
+// en el terminal (en la carpeta correspondiente)
 
-const state = {
-    model: init_model,
-    view_model: visual(init_model)
-}
+// En app.js estara todo lo que es no funcional (estado de la aplicacion,
+// while, inputs, etc) (No Funcional)
 
+// Aqui defino los comandos de las librerias
+const {printTable} = require('console-table-printer')
+const input = require('prompt-sync')();
 
-async function app(state, visual, update){
+// Aca "me traigo" los archivos a app.js para poder usarlos
+const {update} = require('./update')
+const {view} = require('./view')
+
+// Para poder usar las funciones de view.js, es necesario recibirlas
+const {showTable} = require('./view')
+const {showTitle} = require('./view')
+// Para poder usar las funciones de update.js, es necesario recibirlas
+const {rightValeuUpdate} = require('./update')
+
+function app(name, temp, max, min){
+
+    // Para la vista:
     while (true){
-        const {model, view_model} = state;
-        const {title, table} = view_model;
+        console.clear()
+        console.log(showTitle())
+        printTable(showTable(name, temp, max, min))
 
-        console.clear();
-        console.log(title)
-        printTable(table)
+
         
-        const {choose_left} = await input_is_left(model);
-        const value = await input_value(model);
-        const begin_unit = await input_begin_unit(model);
-        const end_unit = await input_end_unit(model);
-        const updated_model = update(model, choose_left, value, begin_unit, end_unit);
-
-        state = {
-            ...state,
-            model: updated_model,
-            view_model: visual(updated_model)
+        // Para la interaccion con el usuario (no funcional):
+        if (actionSelection() === "1"){
+            var newCity = input("Location? (q for quit)  ")
+            printTable.addRow({Name: newCity})
+            // Para salir de la app (si se quiere)
+            if (name === 'q'){
+                console.clear() 
+                break
+            }
+        }
+        if (actionSelection() === "2"){
+            var name = input("Location to update? ")
+            // Para salir de la app (si se quiere)
+            if (name === 'q'){
+                console.clear() 
+                break
+            }
+        }
+        if (actionSelection() === "3"){
+            var name = input("Location to delete? ")
+            if (name === 'q'){
+                console.clear() 
+                break
+            }
         }
     }
 }
 
-app(state, visual, update);
+
+app(0,0,0,0)
