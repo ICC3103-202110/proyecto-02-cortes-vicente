@@ -15,6 +15,9 @@ const {Table} = require('console-table-printer');
 //const table = new printTable();
 const input = require('prompt-sync')();
 
+// Usamos también la librería axios para usar la API
+const axios = require('axios');
+
 // Aca "me traigo" los archivos a app.js para poder usarlos
 const {update} = require('./update')
 const {view} = require('./view')
