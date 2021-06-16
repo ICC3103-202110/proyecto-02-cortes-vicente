@@ -7,6 +7,9 @@
 // En app.js estara todo lo que es no funcional (estado de la aplicacion,
 // while, inputs, etc) (No Funcional)
 
+// Sin atntes para usar la API tenemos que usar una key al suscribirse a openweathermap:
+// key: 8343a1428eaf741abd08679a2d799fbb
+
 // Aqui defino los comandos de las librerias
 const {Table} = require('console-table-printer');
 //const table = new printTable();
