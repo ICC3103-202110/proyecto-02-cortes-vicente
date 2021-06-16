@@ -18,6 +18,7 @@ const input = require('prompt-sync')();
 // Usamos también la librería axios para usar la API
 const axios = require('axios');
 
+
 // Aca "me traigo" los archivos a app.js para poder usarlos
 const {update} = require('./update')
 const {view} = require('./view')
@@ -31,6 +32,10 @@ const {addCity} = require('./update')
 const {updateCity} = require('./update')
 const {deleteCity} = require('./update')
 
+let city_name = input("Selecciona ciudad: ");
+// Definimos el enlace url para hacer request del clima por ciudad
+const url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + city_name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric"
+
 function app(name, temp, max, min){
 
     table1 = new Table();
@@ -38,7 +43,7 @@ function app(name, temp, max, min){
 
     // Para la vista:
     while (true){
-        console.clear()
+        //console.clear()
         console.log(showTitle())
         showTable(table1, name, temp, max, min)
         console.log(showActions())
@@ -77,5 +82,25 @@ function app(name, temp, max, min){
     }
 }
 
-table = ""
-app(0,0,0,0)
+// Make a request for a user with a given ID
+axios.get(url_request)
+  .then(function (response) {
+    console.log("Wena");
+    //console.log(response);
+    console.log(response.data.name);
+    console.log(response.data.sys.country);
+    console.log(response.data.main.temp);
+    console.log(response.data.main.temp_min);
+    console.log(response.data.main.temp_max);
+  })
+  .catch(function (error) {
+    console.log(">:(");
+    console.log(error);
+  })
+  .then(function () {
+    console.log("Final!!!");
+    // always executed
+  });
+
+//table = ""
+//app(0,0,0,0)
