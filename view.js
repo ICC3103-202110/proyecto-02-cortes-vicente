@@ -2,6 +2,7 @@
 
 const figlet = require('figlet')
 const chalk = require('chalk')
+const { Table } = require('console-table-printer')
 
 // --------------------------------- Titulo --------------------------------- //
 
@@ -23,10 +24,10 @@ function showActions(){
     return("\n" + "1) Add city. " + "\n" + "2) Update city. " + "\n" + "3) Delete city" + "\n")
 }
 
-function showTable(name, temp, max, min){
-    return [
-        {Name: name, Temperature: temp, Max: max, Min: min}
-    ]  
+function showTable(table, name, temp, max, min){
+    return(
+        table.printTable(name, temp, max, min)
+    )
 }
 
 // Para que app.js pueda leer la funciones de view.js, es necesario exportarlas:
@@ -34,4 +35,5 @@ function showTable(name, temp, max, min){
 module.exports = {
     showTable,
     showTitle,
+    showActions,
 }

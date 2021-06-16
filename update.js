@@ -1,30 +1,30 @@
 // Aqui se haran las actualizaciones de los datos (Funcional)
-/*
-Function addCity(name){
+
+
+
+function addCity(table, name, temp, max, min){
+    return(
+        table.addRow({ Name: name, Temperatura: temp, Max: max, Min: min })        
+    )
+}
+
+function updateCity(table, name, temp, max, min){
+    table.addRow({ Name: name, Temperatura: temp, Max: max, Min: min })
 
 }
 
-Function updateCity(){
-
+function deleteCity(cityName, temp, max, min){
+    const {Table} = require('console-table-printer');
+    table2 = new Table({
+        columns: [{ name: "Name" }, { name: "Temperatura" }, { name: "Max" }, {name: "Min"}],
+        filter: (row) => +row.Name !== cityName
+      });
+      return table2
 }
 
-Functioon deleteCity(){
 
-}
-
-*/
-
-function updateTable(actionOption, newCity, removeCity, updateCity){
-    const {printTable} = require('console-table-printer');
-    const table = new printTable();
-    if (actionOption === "1"){
-        table.addRow({Name: newCity, Temperature: 0, Max: 0, Min: 0})
-    }
-    if (actionOption === "2"){
-        table.addRow({Name: newCity, Temperature: 0, Max: 0, Min: 0})
-    }
-    if (actionOption === "3"){
-        table.addRow({Name: newCity, Temperature: 0, Max: 0, Min: 0})
-    }
-
+module.exports = {
+    addCity,
+    updateCity,
+    deleteCity,
 }
