@@ -15,10 +15,6 @@ const {Table} = require('console-table-printer');
 //const table = new printTable();
 const input = require('prompt-sync')();
 
-// Usamos también la librería axios para usar la API
-const axios = require('axios');
-
-
 // Aca "me traigo" los archivos a app.js para poder usarlos
 const {update} = require('./update')
 const {view} = require('./view')
@@ -32,28 +28,6 @@ const {addCity} = require('./update')
 const {updateCity} = require('./update')
 const {deleteCity} = require('./update')
 
-let city_name = input("Selecciona ciudad: ");
-// Definimos el enlace url para hacer request del clima por ciudad
-const url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + city_name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric"
-
-// Make a request for a user with a given ID
-axios.get(url_request)
-    .then(function (response) {
-        console.log("Wena");
-        console.log(response);
-        console.log(response.data.name);
-        console.log(response.data.main.temp);
-        console.log(response.data.main.temp_max);
-        console.log(response.data.main.temp_min);
-    })
-    .catch(function (error) {
-        console.log(">:(");
-        console.log(error);
-    })
-    .then(function () {
-        console.log("Final!!!");
-        // always executed
-    });
 
 function app(name, temp, max, min){
 
@@ -71,32 +45,8 @@ function app(name, temp, max, min){
 
         if (actionSelection === "1"){
             var name = input("Location? (q for quit)  ")
-            
-            let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric"
-            let temp = 0
-            let max = 0
-            let min = 0
-
-            /*
-            axios.get(url_request)
-            .then(function (response) {
-                console.log(responde);
-                name = response.data.name
-                temp = response.data.main.temp
-                max = response.data.main.temp_max
-                min = response.data.main.temp_min
-            })
-            .catch(function (error) {
-                console.log(">:(");
-                console.log(error);
-            })
-            .then(function () {
-                console.log("Final!!!");
-                // always executed
-            });
-            */
-
-            addCity(table1, name, temp, max, min)
+            let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric";
+            addCity(table1, name, temp, max, min, url_request)
             // Para salir de la app (si se quiere)
             if (name === 'q'){
                 console.clear() 
@@ -105,7 +55,8 @@ function app(name, temp, max, min){
         }
         if (actionSelection === "2"){
             var name = input("Location to update? ")
-            updateCity(table1, name, temp, max, min)
+            let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric";
+            updateCity(table1, name, temp, max, min, url_request)
             // Para salir de la app (si se quiere)
             if (name === 'q'){
                 console.clear() 
@@ -128,7 +79,7 @@ function app(name, temp, max, min){
 
 
     //cd JavaScript/Proyecto2
-/*
+
 table = ""
-app(0,0,0,0)
-*/
+app("name",10,15,5);
+
