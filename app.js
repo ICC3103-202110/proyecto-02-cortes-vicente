@@ -11,7 +11,7 @@
 // key: 8343a1428eaf741abd08679a2d799fbb
 
 // Aqui defino los comandos de las librerias
-const {Table} = require('console-table-printer');
+const {Table, printTable} = require('console-table-printer');
 //const table = new printTable();
 const input = require('prompt-sync')();
 
@@ -24,33 +24,52 @@ const {showTable, showTitle, selectAction, addingCity} = require('./view')
 //const {showActions} = require('./view')
 
 // Para poder usar las funciones de update.js, es necesario recibirlas
-const {addCity, updateCity, deleteCity} = require('./update')
+const {addCity, updateCity, deleteCity, addArray} = require('./update')
 
 
 async function app(name, temp, max, min){
 
-    table1 = new Table();
-    table2 = new Table();
+    name_list = [];
+    temp_list = [];
+    max_list = [];
+    min_list = [];
+    count = 0
 
     // Para la vista:
     while (true){
+
         //console.clear()
         console.log(showTitle())
-        showTable(table1, name, temp, max, min)
+        let table1 = new Table();
+        for(var i = 0; i < count; i++)
+        {
+            console.log(name_list[i]);
+            console.log(temp_list[i]);
+            await table1.addRow({ Nombre: name_list[i], Temperatura: temp_list[i], max: max_list[i] , min: min_list[i]})
+        }
+        table1.printTable()
 
         let selectedAction = await selectAction();
-
-        //console.log(showActions())
-        //var actionSelection = input("Select an action (1,2,3): ")        
-        // Para la interaccion con el usuario (no funcional):
 
         if (selectedAction.choose === 'Add city')
         {
             let city = await addingCity();
             let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric";
-            
-            console.log(city.location);
-            addCity(table1, city.location, temp, max, min, url_request);
+
+            name_list.push(city.location);
+            //name_list.push(addArray("name", url_request));
+            await temp_list.push(await addArray("temp", url_request));
+            await max_list.push(await addArray("max", url_request));
+            await min_list.push(await addArray("min", url_request));
+
+            //console.log(name_list)
+            //console.log(temp_list)
+            //console.log(max_list)
+            //console.log(min_list)
+
+            count++;
+
+            //addCity(table1, city.location, temp, max, min, url_request);
             
             // Para salir de la app (si se quiere)
             if (city.location === 'q')
