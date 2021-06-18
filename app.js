@@ -20,7 +20,7 @@ const {update} = require('./update')
 const {view} = require('./view')
 
 // Para poder usar las funciones de view.js, es necesario recibirlas
-const {showTable, showTitle, selectAction, addingCity} = require('./view')
+const {showTable, showTitle, selectAction, addingCity, deletingCity} = require('./view')
 //const {showActions} = require('./view')
 
 // Para poder usar las funciones de update.js, es necesario recibirlas
@@ -43,8 +43,8 @@ async function app(name, temp, max, min){
         let table1 = new Table();
         for(var i = 0; i < count; i++)
         {
-            console.log(name_list[i]);
-            console.log(temp_list[i]);
+            //console.log(name_list[i]);
+            //console.log(temp_list[i]);
             await table1.addRow({ Nombre: name_list[i], Temperatura: temp_list[i], max: max_list[i] , min: min_list[i]})
         }
         table1.printTable()
@@ -62,15 +62,9 @@ async function app(name, temp, max, min){
             await max_list.push(await addArray("max", url_request));
             await min_list.push(await addArray("min", url_request));
 
-            //console.log(name_list)
-            //console.log(temp_list)
-            //console.log(max_list)
-            //console.log(min_list)
-
             count++;
 
             //addCity(table1, city.location, temp, max, min, url_request);
-            
             // Para salir de la app (si se quiere)
             if (city.location === 'q')
             {
@@ -79,26 +73,60 @@ async function app(name, temp, max, min){
             }
         }
         if (selectedAction.choose === 'Update city'){
-            var name = input("Location to update? ")
-            let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric";
-            updateCity(table1, name, temp, max, min, url_request)
+            const message = 'Location to update?';
+            var name = await deletingCity(name_list, message);
+
+            let posdel = name_list.indexOf(name.deleted);
+            console.log(posdel);
+            temp_list.splice(posdel, 1);
+            max_list.splice(posdel, 1);
+            min_list.splice(posdel, 1);
+
+            let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name.deleted + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric";
+
+            await temp_list.push(await addArray("temp", url_request));
+            await max_list.push(await addArray("max", url_request));
+            await min_list.push(await addArray("min", url_request));
+
+            //updateCity(table1, name, temp, max, min, url_request)
             // Para salir de la app (si se quiere)
+            /*
             if (name === 'q'){
                 console.clear() 
                 break
             }
+            */
         }
         
         if (selectedAction.choose === 'Delete city'){
-            var cityName = input("Location to delete? ")
+            const message = 'Location to delete?';
+            var name = await deletingCity(name_list, message);
+
+            console.log(name.deleted);
+
+            let posdel = name_list.indexOf(name.deleted);
+            console.log(posdel);
+            name_list.splice(posdel, 1);
+            temp_list.splice(posdel, 1);
+            max_list.splice(posdel, 1);
+            min_list.splice(posdel, 1);            
+
+            count--;
             /*
             table1 = new Table({deleteCity(cityName, temp, max, min)})
             */
+           /*
             if (name === 'q'){
                 console.clear() 
                 break
             }
+            */
         }
+        //console.log(name_list)
+        //console.log(temp_list)
+        //console.log(max_list)
+        //console.log(min_list)
+        //console.log(count)
     }
 }
 

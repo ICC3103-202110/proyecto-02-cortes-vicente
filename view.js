@@ -37,12 +37,23 @@ function selectAction(){
 };
 
 function addingCity(){
-    const message = 'Location? ("q" to quit)'
+    const message = 'Location to add? ("q" to quit)'
     return inquirer.prompt([
         {
             name: 'location',
             type: 'input',
             message: message
+        }
+    ])
+};
+
+function deletingCity(array, message){
+    return inquirer.prompt([
+        {
+            name: 'deleted',
+            type: 'list',
+            message: message,
+            choices: array
         }
     ])
 };
@@ -60,5 +71,6 @@ module.exports = {
     showTitle,
     showActions,
     selectAction,
-    addingCity
+    addingCity,
+    deletingCity
 }
