@@ -35,16 +35,6 @@ async function getMin(url) {
     return temperature;
 }
 
-async function addCity(table, name, temp, max, min, url){
-    temp = await getTemp(url);
-    max = await getMax(url);
-    min = await getMin(url);
-
-    return(
-        table.addRow({ Name: name, Temperatura: temp, Max: max, Min: min })        
-    )
-}
-
 async function addArray(type, url)
 {
     if(type === "name")
@@ -73,28 +63,7 @@ async function addArray(type, url)
     }
 }
 
-function updateCity(table, name, temp, max, min, url){
-
-    temp = getTemp(url);
-    max = getMax(url);
-    min = getMin(url);
-
-    table.addRow({ Name: name, Temperatura: temp, Max: max, Min: min })
-}
-
-function deleteCity(cityName, temp, max, min){
-    const {Table} = require('console-table-printer');
-    table2 = new Table({
-        columns: [{ name: "Name" }, { name: "Temperatura" }, { name: "Max" }, {name: "Min"}],
-        filter: (row) => +row.Name !== cityName
-      });
-      return table2
-}
-
 
 module.exports = {
-    addCity,
-    updateCity,
-    deleteCity,
     addArray
 }

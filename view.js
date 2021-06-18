@@ -1,9 +1,7 @@
 // En view.js no se imprimira nada, solo se retornara (Funcional)
-
 const figlet = require('figlet')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
-const { Table } = require('console-table-printer')
 
 // --------------------------------- Titulo --------------------------------- //
 
@@ -58,16 +56,9 @@ function deletingCity(array, message){
     ])
 };
 
-function showTable(table, name, temp, max, min){
-    return(
-        table.printTable(name, temp, max, min)
-    )
-}
-
 // Para que app.js pueda leer la funciones de view.js, es necesario exportarlas:
 
 module.exports = {
-    showTable,
     showTitle,
     showActions,
     selectAction,
