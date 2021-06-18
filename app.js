@@ -84,9 +84,9 @@ async function app(name, temp, max, min){
 
             let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name.deleted + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric";
 
-            await temp_list.push(await addArray("temp", url_request));
-            await max_list.push(await addArray("max", url_request));
-            await min_list.push(await addArray("min", url_request));
+            await temp_list.splice(posdel, 0, await addArray("temp", url_request));
+            await max_list.splice(posdel, 0, await addArray("max", url_request));
+            await min_list.splice(posdel, 0, await addArray("min", url_request));
 
             //updateCity(table1, name, temp, max, min, url_request)
             // Para salir de la app (si se quiere)
