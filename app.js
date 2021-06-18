@@ -20,16 +20,14 @@ const {update} = require('./update')
 const {view} = require('./view')
 
 // Para poder usar las funciones de view.js, es necesario recibirlas
-const {showTable} = require('./view')
-const {showActions} = require('./view')
-const {showTitle} = require('./view')
+const {showTable, showTitle, selectAction, addingCity} = require('./view')
+//const {showActions} = require('./view')
+
 // Para poder usar las funciones de update.js, es necesario recibirlas
-const {addCity} = require('./update')
-const {updateCity} = require('./update')
-const {deleteCity} = require('./update')
+const {addCity, updateCity, deleteCity} = require('./update')
 
 
-function app(name, temp, max, min){
+async function app(name, temp, max, min){
 
     table1 = new Table();
     table2 = new Table();
@@ -39,21 +37,29 @@ function app(name, temp, max, min){
         //console.clear()
         console.log(showTitle())
         showTable(table1, name, temp, max, min)
-        console.log(showActions())
-        var actionSelection = input("Select an action (1,2,3): ")        
+
+        let selectedAction = await selectAction();
+
+        //console.log(showActions())
+        //var actionSelection = input("Select an action (1,2,3): ")        
         // Para la interaccion con el usuario (no funcional):
 
-        if (actionSelection === "1"){
-            var name = input("Location? (q for quit)  ")
+        if (selectedAction.choose === 'Add city')
+        {
+            let city = await addingCity();
             let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric";
-            addCity(table1, name, temp, max, min, url_request)
+            
+            console.log(city.location);
+            addCity(table1, city.location, temp, max, min, url_request);
+            
             // Para salir de la app (si se quiere)
-            if (name === 'q'){
-                console.clear() 
-                break
+            if (city.location === 'q')
+            {
+                console.clear(); 
+                break;
             }
         }
-        if (actionSelection === "2"){
+        if (selectedAction.choose === 'Update city'){
             var name = input("Location to update? ")
             let url_request = "http://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=8343a1428eaf741abd08679a2d799fbb&units=metric";
             updateCity(table1, name, temp, max, min, url_request)
@@ -64,7 +70,7 @@ function app(name, temp, max, min){
             }
         }
         
-        if (actionSelection === "3"){
+        if (selectedAction.choose === 'Delete city'){
             var cityName = input("Location to delete? ")
             /*
             table1 = new Table({deleteCity(cityName, temp, max, min)})
@@ -82,4 +88,3 @@ function app(name, temp, max, min){
 
 table = ""
 app("name",10,15,5);
-

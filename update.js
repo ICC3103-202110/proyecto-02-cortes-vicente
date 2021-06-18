@@ -4,13 +4,9 @@ const axios = require('axios');
 // Aqui se haran las actualizaciones de los datos (Funcional)
 
 async function getTemp(url) {
-    await axios.get({
-        method: "get",
-        url: url,
-        timeout: 8000
-    })
+    await axios.get(url)
         .then( function (response){
-            return response.data.main.temp;
+            return response.data.main.temp_max;
         })
 }
 
